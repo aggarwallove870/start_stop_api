@@ -1,0 +1,67 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<div class="content-body">
+    <div class="container-fluid mt-3">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h4>Employees Attendance</h4>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>User Name</th>
+                                        <th>Employe ID</th>
+                                        <th>Status</th>
+                                        <!--                                            <th>Leave Status</th>-->
+                                        <!--                                            <th>Leave Type</th>-->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if employees %}
+
+                                    {% for employe in employees %}
+
+                                    <tr id="All-{{employ.id}}">
+                                        <td>
+                                            <b>{{ employe.employe_name }}</b>
+                                        </td>
+                                        <td>{{ employe.employe_name.id }}</td>
+                                        <td>
+
+                                            {% if employe.status == 'P' %}
+                                            <span class="badge badge-primary px-2">Present</span>
+                                            {% elif employe.status == 'A' %}
+                                            <span class="badge badge-danger px-2">Absent</span>
+                                            {% elif employe.status == 'L' %}
+                                            <span class="badge badge-success px-2">Leave</span>
+                                            {% endif %}
+
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td><b>No Attendance today yet</b></td>
+                                    </tr>
+                                    {% endif %}
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,234 @@
+{% extends 'twaask_base_layout.html' %}
+{% load static %}
+{% block title %}Payment | {% endblock %}
+{% block content %}
+
+
+    <meta name="description" content="A demo of Stripe Payment Intents" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="{% static 'payment/css/normalize.css' %}" />
+    <link rel="stylesheet" href="{% static 'payment/css/global.css' %}" />
+<link rel="stylesheet" href="{% static 'payment/css/style.css' %}" />
+
+
+    <script src="https://js.stripe.com/v3/"></script>
+ <script src="{% static 'payment/js/script.js' %}"></script>
+
+<script>
+var stripe = Stripe('pk_test_P2OV6eHhyuSnugUl03wcHOQL00Sg2KufQY');
+var elements = stripe.elements();
+</script>
+<div class="service-section first-sec">
+	<div class="container">
+        <div class="row">
+            <div class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-6">
+                    <div class="sr-root">
+              <div class="sr-main">
+                <div id="card-element">
+                    {% csrf_token %}
+          <!-- Elements will create input elements here -->
+                </div>
+
+
+        <!-- We'll put the error messages in this element -->
+                <div id="card-errors" role="alert"></div>
+
+                    <input type="hidden" value="{{client_secret}}" id="client_screte">
+
+                <button id="submit" >Pay ${{amount|floatformat:2}}</button>
+        <div style="margin-top:2%">
+                  <p style="color:red" id="errorid"></p>
+            </div>
+
+                </div>
+              </div>
+
+
+
+
+                    <div id="payment-request-button">
+                <!-- A Stripe Element will be inserted here. -->
+                 </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+var stripe = Stripe('pk_test_P2OV6eHhyuSnugUl03wcHOQL00Sg2KufQY');
+var paymentRequest = stripe.paymentRequest({
+  country: 'US',
+  currency: 'usd',
+  total: {
+    label: 'Demo total',
+    amount: 1000,
+  },
+  requestPayerName: true,
+  requestPayerEmail: true,
+});
+
+
+
+var elements = stripe.elements();
+
+var prButton = elements.create('paymentRequestButton', {
+  paymentRequest: paymentRequest,
+});
+
+
+// Check the availability of the Payment Request API first.
+
+paymentRequest.canMakePayment().then(function(result) {
+console.log(result)
+  if (result) {
+    prButton.mount('#payment-request-button');
+  } else {
+    document.getElementById('payment-request-button').style.display = 'none';
+  }
+});
+
+paymentRequest.on('token', function(ev) {
+  // Send the token to your server to charge it!
+  fetch('/charges', {
+    method: 'POST',
+    body: JSON.stringify({token: ev.token.id}),
+    headers: {'content-type': 'application/json'},
+  })
+  .then(function(response) {
+    if (response.ok) {
+      // Report to the browser that the payment was successful, prompting
+      // it to close the browser payment interface.
+      ev.complete('success');
+    } else {
+      // Report to the browser that the payment failed, prompting it to
+      // re-show the payment interface, or show an error message and close
+      // the payment interface.
+      ev.complete('fail');
+    }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Set up Stripe.js and Elements to use in checkout form
+var style = {
+  base: {
+    color: "#32325d",
+  }
+};
+
+
+
+var card = elements.create("card", { style: style });
+card.mount("#card-element");
+
+var client_screte = document.getElementById('client_screte').value;
+
+var pay = function(stripe, card, clientSecret) {
+  changeLoadingState(true);
+
+  // Initiate the payment.
+  // If authentication is required, confirmCardPayment will automatically display a modal
+  stripe
+    .confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: card
+      }
+    })
+    .then(function(result) {
+      if (result.error) {
+        // Show error to your customer
+        showError(result.error.message);
+      } else {
+        // The payment has been processed!
+        orderComplete(clientSecret);
+      }
+    });
+};
+
+
+var submitButton = document.getElementById('submit');
+
+
+submitButton.addEventListener('click', function(ev) {
+
+document.getElementById("submit").setAttribute("disabled","disabled");
+  stripe.confirmCardPayment(client_screte, {
+
+    payment_method: {card: card}
+
+  }).then(function(result) {
+    if (result.error) {
+
+      // Show error to your customer (e.g., insufficient funds)
+
+      document.getElementById("errorid").innerHTML = result.error.message;
+      document.getElementById("submit").disabled = false;
+
+
+     $.ajax({
+            type : 'post',
+            data : {
+            'csrfmiddlewaretoken': '{{csrf_token}}',
+            'errorid' : result.error.charge,
+            'error_msg' : result.error.message,
+            'amount' : result.error.payment_intent.amount,
+            'client_secret' : result.error.payment_intent.client_secret,
+            'currency' : result.error.payment_intent.currency,
+            'payment_id' : result.error.payment_intent.id,
+            'status' : 'False'
+            },
+            })
+
+    } else {
+      // The payment has been processed!
+      if (result.paymentIntent.status === 'succeeded') {
+
+        $.ajax({
+            type : 'post',
+            data : {
+            'csrfmiddlewaretoken': '{{csrf_token}}',
+            'amount' : result.paymentIntent.amount,
+            'client_secret' : result.paymentIntent.client_secret,
+            'currency' : result.paymentIntent.currency,
+            'payment_id' : result.paymentIntent.id,
+            'status' : 'True'
+
+            },
+            })
+      }
+    }
+
+  });
+});
+</script>
+{% endblock %}

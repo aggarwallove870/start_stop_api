@@ -1,0 +1,105 @@
+{% extends 'twaask_base_layout.html' %}
+{% load static %}
+{% block title %}{% endblock %}
+{% block content %}
+
+<div class="service-section">
+        <div class="container">
+                <div class="row">
+                <div class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h2>website as a service (waas)</h2>
+                </div>
+
+                <div class="btn-ctr" align="center">
+                    <form method="post">
+                        {% csrf_token %}
+                        <button type="submit" name="category" value="All" class="btn active btn-default filter-button" data-filter="all">All</button>
+                        {% for category in categories%}
+                        <button type="submit" name="category" value="{{category}}" class="btn active btn-default filter-button" data-filter="all">{{category.website_category}}</button>
+                        {% endfor %}
+                    </form>
+                </div>
+                <br/>
+                 <div class="page-list">
+                      <ul class="pagination">
+                           {% if sevices.has_previous %}
+                              <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+                              <li class="page-item"><a class="page-link" href="?page={{ sevices.previous_page_number }}">previous</a></li>
+                          {% endif %}
+                          <li class="page-item"><a class="page-link" >{{ sevices.number }} of {{ sevices.paginator.num_pages }}</a></li>
+                          {% if sevices.has_next %}
+                          <li class="page-item"><a class="page-link" href="?page={{ sevices.next_page_number }}">next</a></li>
+                          <li class="page-item"><a class="page-link" href="?page={{ sevices.paginator.num_pages }}">last &raquo;</a></li>
+                        {% endif %}
+                      </ul>
+
+
+                 </div>
+                 {% for sevice in sevices%}
+                <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
+                    <div class="filter-pic">
+                        <img src="{{sevice.website_image.url}}" class="img-fluid">
+                        <div class="overlay">
+                        <div class="dolor">${{sevice.price}}</div>
+                        <div class="filter-btn">
+                            <p>{{sevice.title|slice:":30"}}..</p>
+                            <a class="view" href="{{sevice.website_link}}">{{sevice.web_category}}</a>
+                            <a class="check" href="{% url 'clientlogin' id=sevice.id%}?service=true">checkout</a>
+                        </div>
+                            </div>
+                    </div>
+                </div>
+                {% endfor %}
+               <div class="page-list">
+                  <ul class="pagination">
+                       {% if sevices.has_previous %}
+                      <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+                      <li class="page-item"><a class="page-link" href="?page={{ sevices.previous_page_number }}">previous</a></li>
+                      {% endif %}
+                      <li class="page-item"><a class="page-link" >{{ sevices.number }} of {{ sevices.paginator.num_pages }}</a></li>
+
+                      {% if sevices.has_next %}
+                      <li class="page-item"><a class="page-link" href="?page={{ sevices.next_page_number }}">next</a></li>
+                      <li class="page-item"><a class="page-link" href="?page={{ sevices.paginator.num_pages }}">last &raquo;</a></li>
+                    {% endif %}
+                  </ul>
+
+
+             </div>
+
+                </div>
+            </div>
+        
+        
+</div>
+{% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function(){
+
+$(".filter-button").click(function(){
+    var value = $(this).attr('data-filter');
+    
+    if(value == "all")
+    {
+        //$('.filter').removeClass('hidden');
+        $('.filter').show('1000');
+    }
+    else
+    {
+//            $('.filter[filter-item="'+value+'"]').removeClass('hidden');
+//            $(".filter").not('.filter[filter-item="'+value+'"]').addClass('hidden');
+        $(".filter").not('.'+value).hide('3000');
+        $('.filter').filter('.'+value).show('3000');
+        
+    }
+});
+
+if ($(".filter-button").removeClass("active")) {
+$(this).removeClass("active");
+}
+$(this).addClass("active");
+
+});
+    </script>
+{% endblock %}

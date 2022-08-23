@@ -1,0 +1,148 @@
+{% extends 'twaask_base_layout.html' %}
+{% load static %}
+{% block title %}{% endblock %}
+{% block content %}
+<div class="banner">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="left-bnr">
+					<h2>Looking out to make <br> web or mobile based <br> product?</h2>
+					<p>TaaSk allows you to hire your teams who are <br> working in the same office with no <br>
+					communication hinderances.</p>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="right-bnr">
+					<div class="wrapper">
+						<div class="youtube" data-embed="AqcjdkPMPJA">
+							<div class="play-button"></div>
+						</div>
+					</div>
+					<div class="get-start"><a  href="{% url 'selection' %}">Lets get started</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<section class="post-resume  text-center">
+         <div class="container">
+            <div class="row">
+               <div class="col-sm-12">
+                  <h4>Bootstrapping Your startup?</h4>
+                  <p>The very first problems faced by the startups are to manage the external factors of operations in
+				  maintaining a team which leads to diversion of their focus from the execution of the core concept. These
+				  factors include. </p>
+               </div>
+               <div class="col-md-4 col-sm-6">
+                  <a href="#"><i class="fa fa-money" aria-hidden="true"></i></a>
+                  <h6>Office rent</h6>
+               </div>
+               <div class="col-md-4 col-sm-6">
+                  <a href="#"><i class="fa fa-compass" aria-hidden="true"></i></a>
+                  <h6>Hiring right talent</h6>
+               </div>
+               <div class="col-md-4 col-sm-6">
+                  <a href="#"><i class="fa fa-cubes" aria-hidden="true"></i></a>
+                  <h6>Bills</h6>
+               </div>
+               <div class="col-md-4 col-sm-6">
+                  <a href="#"><i class="fa fa-briefcase" aria-hidden="true"></i></a>
+                  <h6>Office Operations</h6>
+               </div>
+			   <div class="col-md-4 col-sm-6">
+                  <a href="#"><i class="fa fa-line-chart" aria-hidden="true"></i></a>
+                  <h6>Hardware Investment</h6>
+               </div>
+			   <div class="col-md-4 col-sm-6">
+                  <a href="#"><i class="fa fa-language" aria-hidden="true"></i></a>
+                  <h6>HR</h6>
+               </div>
+            </div>
+         </div>
+      </section>
+<section class="task-help">
+		<div class="container">
+			<div class="row">
+				<h4>How TaaSk helps</h4>
+				<div class="col-md-6">
+					<p>TaaSk whick is based on Team As A Service Model, allows you to hire a
+					team which is working from a common office space. You just have to maintain a single person
+					communication and see your ideas working in real life. You can communicate from your home,
+					office, vacations, travels or anywhere from the world and your team is always ready
+					to work on your ideas</p>
+				</div>
+				<div class="col-md-6">
+					<img class="img-fluid" src="{% static 'twaask/images/work.png' %}">
+				</div>
+			</div>
+		</div>
+	  </section>
+<section class="experience pt-100 pb-100" id="experience">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-8 mx-auto text-center">
+					<div class="section-title">
+						<h4>How TaaSk works?</h4>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+               <div class="col-xl-12">
+                  <ul class="timeline-list">
+                     <!-- Single Experience -->
+                     <li>
+                        <div class="timeline_content">
+                           <span>Step 1</span>
+
+                           <p>Finalize your requerments</p>
+                        </div>
+                     </li>
+                     <!-- Single Experience -->
+                     <li>
+                        <div class="timeline_content">
+                        <span>Step 2</span>
+
+                           <p>Select package or product as per your requerment</p>
+                        </div>
+                     </li>
+                     <!-- Single Experience -->
+                     <li>
+                        <div class="timeline_content">
+                        <span>Step 3</span>
+
+                           <p>Make the payment as per your package</p>
+                        </div>
+                     </li>
+                     <!-- Single Experience -->
+                     <li>
+                        <div class="timeline_content">
+                        <span>Step 4</span>
+
+                           <p>Submit project detail</p>
+                        </div>
+                     </li>
+					  <li>
+                        <div class="timeline_content">
+                        <span>Step 5</span>
+
+                           <p>Within 24 hours your project will be setup on Trello and Slack with all the
+						   team members with invitation on your email to join</p>
+                        </div>
+                     </li>
+					 <li>
+                        <div class="timeline_content">
+                        <span>Final Step</span>
+
+                           <p>Ongoing Development, team member change request, milestone completions. </p>
+                        </div>
+                     </li>
+
+                  </ul>
+
+				  <div class="get-start"><a target="blank" href="selection.html">Lets get started</a></div>
+               </div>
+            </div>
+		</div>
+	  </section>
+{% endblock %}

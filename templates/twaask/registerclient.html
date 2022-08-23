@@ -1,0 +1,59 @@
+
+{% extends 'twaask_base_layout.html' %}
+{% load static %}
+{% block title %}{% endblock %}
+{% block content %}
+<div class="service-section registration">
+    <div class="container">
+        <div class="row">
+            <div>
+                <div class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                    <h2>Login website for purchage package</h2>
+
+
+
+                            <div class="col-md-6">
+                                    <form method="post">
+                            {% csrf_token %}
+                                <div class="form-group">
+                                <input type="text" name="username" class="form-control" placeholder="User Name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" name="email" class="form-control" placeholder="Email">
+                                </div>
+                                <div class="form-group">
+                                <input type="text" name="first_name" class="form-control" placeholder="First Name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="last_name" class="form-control" placeholder="Last Name">
+                                </div>
+                                 <div class="form-group">
+                                    <input type="password" name="password1" class="form-control" placeholder="Password">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" name="password2" class="form-control" placeholder="Confirm Password">
+                                </div>
+
+
+                            <input type="submit" class="btn login-form__btn submit" >
+
+                        <p style="color:red">{{ form.errors }}</p>
+
+                                </form>
+                            </div>
+
+
+
+                            <div class="col-md-6">
+                                <img src="{% static 'twaask/images/work.png' %}">
+                            </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

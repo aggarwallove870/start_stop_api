@@ -1,0 +1,53 @@
+{% extends 'twaask_base_layout.html' %}
+{% block title %}Selection | {% endblock %}
+{% load static %}
+{% block content %}
+
+  <div class="selection-section">
+
+      <div class="container">
+          <div class="row">
+             <h2>make a selection</h2>
+
+             <div class="col-md-5 col-sm-5 text-center">
+                <div class="serviceBox">
+                    <h3 class="title">Waas</h3>
+                    <h4>Website as a Service</h4>
+                    <p class="description">
+                        Select from our list of predefined sample website and get your website ready to go Within 1 week of your order confirmation. 
+                        you will get a wordpress based website hosted on our servers with ftp access to it.
+                    </p>
+                    <b>What do we need? <br> Your team requirement </b>
+                    <a href="{% url 'service' %}">creat quick website</a>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2 text-center">
+                <div class="option"> 
+                    <p>or</p>
+                 </div>
+            </div>
+            <div class="col-md-5 col-sm-5 text-center">
+                    <div class="serviceBox">
+                            <h3 class="title">TaaS</h3>
+                            <h4>Team as a Service</h4>
+                            <p class="description">
+                                Select from our list of predefined sample website and get your website ready to go Within 1 week of your order confirmation. 
+                                you will get a wordpress based website hosted on our servers with ftp access to it.
+                            </p>
+                            <b>what do we need? Your relevant content and images Domain details Hosting Details if any </b>
+                            <a  href="{% url 'package' %}">Hire a team</a>
+                        </div>
+            </div>
+
+
+          </div>
+      </div>
+  </div>
+{% endblock %}
+
+
+
+
+
+
+

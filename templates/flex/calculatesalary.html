@@ -1,0 +1,58 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block title %} Calculate salary {% endblock %}
+{% block content %}
+<div class="content-body">
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="active-member">
+                            <div class="table-responsive">
+                                <table class="table table-xs mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Name</th>
+                                            <th>Salary </th>
+                                            <th>Total Leaves</th>
+                                            <th>Paid/Unpdaid Leave</th>
+
+                                            <th>Half/Full Leave</th>
+                                            <th>Deducted Salary</th>
+                                            <th>Total Salary</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for employee in empolyees %}
+                                        {{employee.salary.salary.salary_amount}}
+                                        <tr>
+                                            <th>{{ forloop.counter }}</th>
+                                            <td>{{ employee.first_name|title }}{{employe_last_name|title}}</td>
+                                            <td>{{employee.salary.salary.salary_amount}}</td>
+                                            <td>
+                                                <span>{{employee.total_leaves}}</span>
+                                            </td>
+                                            <td>
+                                                {{employee.paid_leave}} Leave /{{employee.unpaid_leave}} Leave
+                                            </td>
+                                            <td>{{employee.half_leave}} Half /{{employee.full_leave}} Full Leave</td>
+                                            <td>
+                                                {{employee.paid_payment|floatformat:2}} -
+                                                {{employee.unpaid_payment|floatformat:2}}
+                                            </td>
+                                            <td>{{employee.paid_salary|floatformat:2}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

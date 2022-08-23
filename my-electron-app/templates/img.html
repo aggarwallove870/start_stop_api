@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Center align button</title>
+    <style>
+        /* css */
+
+
+        .cont {
+            font-size: 35px;
+        }
+
+        .container2 {
+            text-align: right;
+            padding-top: 500px;
+        }
+
+        main {
+            height: 150px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+
+        .action-btn {
+            display: inline-block;
+            width: 117px;
+            text-align: center;
+            /*background: #0078ff;*/
+            /*jignesh*/
+            /*margin-right: 4px;*/
+            text-decoration: none;
+            padding: 15px 0;
+            text-transform: uppercase;
+            color: #fff;
+            font-size: 20px;
+            box-shadow: 3px 3px 0 0px #4F667C;
+        }
+
+        .red {
+            background: #134AA0 !important;
+        }
+
+        .green {
+            background: green !important;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+
+    <main id=" abcde">
+
+        <button id="tid" name="timer" onclick="toggleStopwatch();">Start</button>
+
+        <span id="h">00</span>:<span id="m">00</span>:<span id="s">00</span>
+
+
+        </a>
+
+        <input id="DateTime" name="DateTime" type="text" value="">
+        <input id="StopDateTime" name="StopDateTime" type="text" value="">
+        <input type="text" id="user" value="{{username}}">
+
+    </main>
+    <!-- </form> -->
+
+
+    <div class="container2">
+        <button>VIEW TIMESHEET</button>
+
+    </div>
+
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script>
+        $('body').css('background-image',
+            'url("time.jpg")');
+
+
+
+
+    </script>
+</body>
+
+</html>

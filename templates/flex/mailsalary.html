@@ -1,0 +1,140 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block title %}Mail Salary detail{% endblock %}
+{% block content %}
+{% load filt %}
+
+
+<div class="content-body">
+    <div class="container-fluid ">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="active-member">
+                        <div class="table-responsive">
+                            <table class="table table-xs mb-0">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Total Present</th>
+                                        <th>Unpdaid Leaves</th>
+                                        <th>Paid Leaves</th>
+                                        <th>Half Leaves</th>
+                                        <th>Total Leaves</th>
+                                        <th>Deducted Salary</th>
+                                        <th>Total Salary</th>
+
+                                        <th></th>
+                                        <th>Send Mail</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for employee in empolyees %}
+
+                                    <tr>
+
+
+                                        <td>{{ forloop.counter }}</td>
+
+                                        <td>{{employee.first_name}}</td>
+                                        <td>{{ total_present_dict|get_item:employee.id }}</td>
+
+
+                                        <td>{{ unpaid_leave_dic|get_item:employee.id }}</td>
+                                        <td>{{ paid_leave_dic|get_item:employee.id }}</td>
+                                        <td>{{total_halfleave_dict|get_item:employee.id }}</td>
+
+                                        <td>{{ full_leave_dic|get_item:employee.id }}</td>
+
+                                        <td>
+                                            {{ deduct_leave|get_deduct_salary:employee.id|floatformat:2 }}
+                                        </td>
+                                        <td> {{ total_salary_dict|get_deduct_salary:employee.id|floatformat:2 }}</td>
+
+                                        {% if employee.mailsent %}
+                                        <td class="F_{{employee.id}}"></td>
+                                        <td>
+                                            <input type="button" id="{{employee.id}}" class="btn mb-1 btn-success"
+                                                disabled value="Sent">
+                                        </td>
+
+                                        {% else %}
+                                        <form id="F_{{employee.id}}">
+                                            <td>
+
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <input type="number" id="td_{{employee.id}}" name="bonus"
+                                                        class="form-control" placeholder="Enter Bonus">
+                                                    <input hidden type="number" name="id" value="{{employee.id}}">
+
+                                                    <input hidden type="number" name="total_leaves"
+                                                        value="{{ full_leave_dic|get_item:employee.id }}">
+
+                                                    <input hidden type="number" name="paid_leave"
+                                                        value="{{ paid_leave_dic|get_item:employee.id }}">
+
+                                                    <input hidden type="number" name="paid_payment"
+                                                        value="{{employee.paid_payment|floatformat:2}}">
+
+                                                    <input hidden type="number" name="unpaid_payment"
+                                                        value="{{employee.unpaid_payment|floatformat:2}}">
+
+                                                    <input hidden type="number" name="unpaid_leave"
+                                                        value="{{ unpaid_leave_dic|get_item:employee.id }}">
+
+                                                    <input hidden type="number" name="half_leave"
+                                                        value="{{total_halfleave_dict|get_item:employee.id }}">
+
+                                                    <input hidden type="number" name="full_leave"
+                                                        value="{{employee.full_leave}}">
+
+                                                    <input hidden type="number" name="deducted_salary"
+                                                        value="{{ deduct_leave|get_deduct_salary:employee.id|floatformat:2 }}">
+
+                                                    <input hidden type="number" name="paid_salary"
+                                                        value="{{ total_salary_dict|get_deduct_salary:employee.id|floatformat:2 }}">
+
+                                                </div>
+                                            </td>
+                                            <td><input type="button" id="b_{{employee.id}}" class="btn mb-1 btn-success"
+                                                    onclick="savesalary('{{employee.id}}')" value="Send"></td>
+                                        </form>
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+    jQuery.noConflict();
+    function savesalary(form) {
+
+        $("#F_" + form).ajaxSubmit({
+            type: 'post',
+            success: function (data) {
+                $(this).siblings('#' + form).hide();
+                $("#b_" + form).prop('value', 'Sent');
+                $("#b_" + form).prop('disabled', true);
+                $("#td_" + form).prop('hidden', true);
+
+
+            },
+        })
+    }
+
+
+
+
+</script>
+{%endblock%}

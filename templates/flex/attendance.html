@@ -1,0 +1,398 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block title %}Attendance{% endblock %}
+{% block content %}
+{% load filt %}
+<div class="content-body">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <div class="card-title">
+                            <h4>Employees Attendance</h4>
+                            {% if employe.is_holiday == True %}
+                            <b style="float:right"> Holiday &nbsp;: &nbsp;&nbsp; <input class="present checkbox-sizec"
+                                    onclick="holidaycheck('{{employe.id}}')" checked="checked" id="{{employe.id}}"
+                                    type="checkbox"></b>
+                            {% else %}
+                            <b style="float:right"> Holiday &nbsp;: &nbsp;&nbsp; <input class="present  checkbox-sizec"
+                                    onclick="holidaycheck('{{employe.id}}')" id="{{employe.id}}" type="checkbox"></b>
+                            {% endif %}
+                        </div> -->
+                        <div class="table-responsive">
+
+                            <div class="bootstrap-modal">
+                                <div class="modal fade" id="note_modal" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Add Note For Employee
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close"><span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form id="note_form" method="post" action="{% url 'addnote' %}">
+                                                {% csrf_token %}
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label class="col-form-label">Note:</label>
+                                                        <input hidden id="noteid_" name="noteid">
+                                                        <textarea value="" class="form-control" name="note-text"
+                                                            id="note-text"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
+                                                    <input type="submit" value="Add Note"
+                                                        class="btn btn-primary btn sweet-success">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bootstrap-modal">
+                                <div class="modal fade" id="check_leave" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Employee Leave Detail</h5>
+
+
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close"><span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+
+
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label class="col-form-label">Short_leave : <b
+                                                            id="short_leave"></b></label><br>
+                                                    <label class="col-form-label">Half_leave : <b
+                                                            id="half_leave"></b></label><br>
+                                                    <label class="col-form-label">Full_leave : <b
+                                                            id="full_leave"></b></label>
+
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>User Name</th>
+                                        <th>Status</th>
+                                        <th>Employe ID</th>
+                                        <th>Present</th>
+                                        <th>Leave</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+
+                                    {% for employ in employe %}
+
+                                    <tr id="All-{{employ.id}}">
+                                        <!--                                       <th>{{ forloop.counter }}</th>-->
+                                        <td style="cursor:pointer" data-toggle="modal"><b
+                                                onclick="noteadd('{{employ.id}}')">{{ employ}}</b></td>
+                                        <td>
+                                            {% if attendence_status|get_item:employ.id == 'P' %}
+                                            <span class="badge badge-primary px-2">Present</span>
+                                            {% elif attendence_status|get_item:employ.id == 'A' %}
+                                            <span class="badge badge-danger px-2">Absent</span>
+                                            {% elif attendence_status|get_item:employ.id == 'L' %}
+                                            <span class="badge badge-success px-2">Leave</span>
+                                            {% endif %}
+                                        </td>
+                                        {%if employ.employe_name.id%}
+                                        <td>{{ employ.employe_name.id}}</td>
+
+                                        {%else %}
+                                        <td>{{ employ.id }}</td>
+                                        {%endif%}
+                                        <td>
+                                            {% if attendence_status|get_item:employ.id == 'P' %}
+                                            <input class="present checkbox-sizec" onclick="present('{{ employ.id }}')"
+                                                id="{{ employ.id }}" type="checkbox" checked>
+                                            {% else %}
+                                            <input class="present checkbox-sizec" onclick="present('{{ employ.id }}')"
+                                                id="{{ employ.id }}" type="checkbox">
+                                            {% endif %}
+                                        </td>
+
+                                        <td>
+                                            {% if attendence_status|get_item:employ.id == 'L' %}
+                                            <input class="leave checkbox-sizec" onclick="leave('{{employ.id}}')"
+                                                id="{{ employ.id }}" type="checkbox" checked>
+                                            {%else%}
+                                            <input class="leave checkbox-sizec" onclick="leave('{{employ.id}}')"
+                                                id="{{ employ.id }}" type="checkbox">
+
+
+
+
+                                            {% endif %}
+                                            {% if employ.status == 'L' %}
+                                            <div>
+                                                <form>
+                                                    <div class="form-row align-items-center">
+
+                                                        <div class="col-auto my-1">
+                                                            <select class="custom-select "
+                                                                onchange="dayleave('{{employ.id}}')"
+                                                                id="D-{{employ.id}}">
+                                                                {% if employ.leave_type == 'f' %}
+                                                                <option value="f" selected="selected">Full day</option>
+                                                                <option value="h">Half day</option>
+                                                                <option value="s">Short Leave</option>
+                                                                {% elif employ.leave_type == 'h' %}
+                                                                <option value="h" selected="selected">Half day</option>
+                                                                <option value="f">Full day</option>
+                                                                <option value="s">Short Leave</option>
+                                                                {% elif employ.leave_type == 's' %}
+                                                                <option value="s" selected="selected">Short Leave
+                                                                </option>
+                                                                <option value="p">Paid Leave</option>
+                                                                <option value="u">Unpade Leave</option>
+                                                                {% else %}
+                                                                <option>Choose...</option>
+                                                                <option value="f">Full day</option>
+                                                                <option value="h">Half day</option>
+                                                                <option value="s">Short Leave</option>
+                                                                {% endif %}
+
+                                                            </select>
+
+
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                            {% endif %}
+
+
+
+                                        </td>
+                                        <td>
+                                            {% if employ.status == 'L' %}
+                                            <div>
+                                                <form>
+                                                    <div class="form-row align-items-center">
+                                                        <div class="col-auto my-1">
+                                                            <select class="custom-select "
+                                                                onchange="leavestatus('{{employ.id}}')"
+                                                                id="P-{{employ.id}}">
+                                                                {% if employ.leave_status == 'p' %}
+                                                                <option value="p" selected="selected">Paid Leave
+                                                                </option>
+                                                                <option value="u">Unpade Leave</option>
+                                                                {% elif employ.leave_status == 'u' %}
+                                                                <option value="u" selected="selected">Unpaid Leave
+                                                                </option>
+                                                                <option value="p">Paid Leave</option>
+                                                                {% else %}
+                                                                <option>Choose...</option>
+                                                                <option value="p">Paid Leave</option>
+                                                                <option value="u">Unpaid Leave</option>
+                                                                {% endif %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            {% endif %}
+
+                                        </td>
+                                        {% if employ.status == 'L' %}
+                                        <td>
+                                            <input type="button" id="b_{{employ.id}}" class="btn mb-1 btn-success"
+                                                onclick="chcek_leaves('{{employ.id}}')" value="Check leave">
+                                        </td>
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block script %}
+<script>
+    jQuery.noConflict();
+    function holidaycheck(ID) {
+        var ID = ID;
+        var holiday = document.getElementById(ID).checked;
+
+        $.ajax({
+            type: 'post',
+            data: {
+                'csrfmiddlewaretoken': '{{csrf_token}}',
+                'hilidayID': ID,
+                'holidaycheck': holiday
+            },
+        })
+
+    };
+
+
+    function chcek_leaves(ID) {
+        console.log(ID, 'id')
+        $.ajax({
+            type: 'get',
+            data: {
+                'check_leave_id': ID,
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            },
+            success: function (data) {
+                console.log(data, 'data')
+
+                $("#short_leave").html(data.short_leave);
+
+                $("#half_leave").html(data.half_leave);
+
+                $("#full_leave").html(data.full_leave);
+
+                $('#check_leave').modal('show');
+            },
+        })
+    }
+
+
+    function noteadd(ID) {
+        var ID = ID;
+        console.log(ID, 'id')
+        $('textarea#note-text').val(' ');
+        $.ajax({
+            type: 'get',
+            url: '/addnote/?id=' + ID,
+            success: function (data) {
+                $('#noteid_').attr('value', ID);
+                if (data["note"]) {
+                    $("textarea#note-text").val(data["note"]);
+                }
+                else {
+                    $("textarea#note-text").val(' ');
+                }
+                $('#note_modal').modal('show');
+            },
+        });
+    }
+    function leavestatus(elem) {
+        var ID = elem;
+        selectElement = document.querySelector('#status_leave');
+        output = selectElement.value;
+        var leavetype = output
+        var leave_status = 'true';
+        $.ajax({
+            type: 'post',
+            data: {
+                'id': ID,
+                'leave_status': leave_status,
+                'leavetype': leavetype,
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            },
+            success: function (data) {
+                $('#All-' + ID).html(data['html']);
+
+            },
+        })
+    }
+
+    function dayleave(elem) {
+        console.log(elem, 'day')
+        var ID = elem;
+        selectElement = document.querySelector('#status_ab');
+        output = selectElement.value;
+        var leavetype = output
+        console.log(leavetype, 'tpe')
+        var leave = 'false';
+        $.ajax({
+            type: 'post',
+            data: {
+                'id': ID,
+                'leave': leave,
+                'leavetype': leavetype,
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            },
+            success: function (data) {
+                $('#All-' + ID).html(data['html']);
+
+            },
+        })
+    }
+
+
+    function leave(elem) {
+        console.log("leave")
+        var ID = elem;
+        var leave = document.getElementById(ID).checked;
+        console.log(leave, 'leaveconsole')
+
+        $.ajax({
+            type: "post",
+            data: {
+                'id': ID,
+                'leave': leave,
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            },
+            success: function (data) {
+                $('#All-' + ID).html(data['html']);
+            },
+        })
+    }
+
+    function present(elem) {
+        ID = elem;
+        console.log(ID)
+        var present = document.getElementById(ID).checked;
+        console.log(present, 'pre')
+        $.ajax({
+            type: "post",
+            data: {
+                'id': ID,
+                'present': present,
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            },
+
+            success: function (data) {
+                console.log($('#All-' + ID).html(data['html']))
+                $('#All-' + ID).html(data['html']);
+
+            },
+        });
+    }
+
+    $("#note_form").ajaxForm({
+        success: function (response) {
+            $('#note_modal').modal('hide');
+        },
+        error: function (response) {
+
+        }
+    })
+</script>
+{% endblock %}

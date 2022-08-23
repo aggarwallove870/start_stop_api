@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>Hello <b> {{object.employe}}</b></td>
+    </tr>
+
+    <tr>
+        <td>Your salary details for <b>{{Month}}, {{Year}}</b> are as follows:</td>
+    </tr>
+    <tr>
+        <td>Your total salary = {{object.salary.salary_amount}}</td> <!--done-->
+    </tr>
+    <tr>
+        <td>Total leave taken = {{object.total_leave_day}}{{object.leave_dates}}</td> <!--done-->
+    </tr>
+
+    <tr>
+        <td>your bonus = {% if object.bonus_amount != '' %} {{object.bonus_amount|floatformat:2}}
+            {%else%} 0 {%endif%}
+        </td>
+    </tr>
+    <tr>
+        <td>your paid leaves = {{object.paid_leave_day}}</td>
+    </tr>
+    <tr>
+        <td>Deducted salary = {{object.deducted_salary|floatformat:2}}</td>
+    </tr>
+    <tr>
+        <td>your unpaid leaves = {{object.unpaid_leave_day}}</td>
+    </tr>
+    <tr>
+        <td>your half leaves = {{object.half_leave}}</td>
+    </tr>
+
+    <tr>
+        <td>your total paid salary = {{object.paid_salary|floatformat:2}}</td>
+    </tr>
+    <tr>
+        <td>HR,</td>
+    </tr>
+    <tr>
+
+        <td>Snakescript Solutions LLP</td>
+    </tr>
+
+</table>
+
+</body>
+</html>

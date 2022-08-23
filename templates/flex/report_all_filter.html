@@ -1,0 +1,33 @@
+<thead>
+    <tr>
+        <th>S.No</th>
+        <th>Employee Name </th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+
+<tbody>
+
+    {% for report in reports %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{report.user}}</td>
+        <td id="report_status">{{report.status}}</td>
+        <td>{{report.date}}</td>
+        <td>
+
+            <button id="{{employ.id}}" type="button" onclick="view('{{report.id}}')" class="btn btn-primary"
+                data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa fa-eye">View</i></button>
+
+        </td>
+
+
+    </tr>
+
+
+    {%endfor%}
+
+
+</tbody>

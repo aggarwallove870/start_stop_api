@@ -1,0 +1,20 @@
+<thead>
+    <tr>
+        <th>Name</th>
+        <th>Employee ID</th>
+        <th>Office Mail</th>
+        <th>Phone Number</th>
+        <th>Total paid</th>
+    </tr>
+</thead>
+<tbody>
+    {% for employee in employees %}
+    <tr id="total_salary" style="cursor:pointer">
+        <td>{{employee.employe}}</td>
+        <td>{{employee.employe.id}}</td>
+        <td>{{employee.employe.office_email}}</td>
+        <td>{{employee.employe.phone}}</td>
+        <td>{{employee.paid_salary}}</td>
+    </tr>
+    {% endfor %}
+</tbody>

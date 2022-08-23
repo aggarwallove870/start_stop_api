@@ -1,0 +1,25 @@
+{% extends 'twaask_base_layout.html' %}
+{% load static %}
+{% block title %}Payment | {% endblock %}
+{% block content %}
+
+<div class="pay-field-sec">
+	<div class="container">
+		<div class="row">
+				<div class="col-md-12 text-center">
+					<div class="field">
+						<div class="can-pic">
+							<img src="{% static 'twaask/images/success.png' %}">
+						</div>
+						<h3>Payment Success !!</h3>
+						<p> Your Transaction ID : {{response.TXNID}}</p>
+						<p>Your order ID : {{response.ORDERID}}</p>
+						<p>Amount :  {{response.TXNAMOUNT}}</p>
+						<p>Discount Amount :  {{discount_amount}}</p>
+						<a href="{% url 'twaask' %} ">ok</a>
+					</div>
+				</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Diplomata+SC|Griffy|Lato|Roboto|Tangerine" rel="stylesheet">
+    <title>INVOICE</title>
+
+	<style>
+
+	.row.header {
+		padding: 50px 0px;
+		border-bottom: 1px #999 solid;
+		padding-bottom: 10px;
+	}
+	.hdr-right{
+		color:#666;
+		margin-top: -20px;
+	}
+	.hdr-right p {
+		margin-bottom: 0px;
+		font-size: 14px;
+	}
+	.hdr-right h4{
+	    font-size: 20px;
+	}
+	.hdr-right p a{
+		text-decoration:none;
+	}
+	.row.second-sec {
+		padding: 25px 0px;
+	}
+	.row.second-sec .jon p {
+		margin-bottom: 0px;
+		font-size: 13px;
+	}
+	.row.second-sec .jon p a{
+		text-decoration:none;
+	}
+	.row.second-sec .jon {
+		color: #666;
+		border-left: 7px #0087c3 solid;
+		padding-left: 10px;
+	}
+	.row.second-sec .jon h5 {
+		margin-bottom: 5px;
+	}
+	.row.second-sec .scd-right p{
+		margin-bottom:0px;
+		font-size: 13px;
+	}
+	.row.second-sec .scd-right h3{
+		color:#0087c3;
+		font-size: 24px;
+	}
+
+	table {
+	  border-collapse: collapse;
+	  width: 100%;
+	  margin-top:50px;
+	}
+
+table td {
+  padding: 15px;
+  background:#eeeeee;
+  height: 80px;
+  text-align:center;
+}
+table td h5{
+	color:#57b223;
+}
+
+	table tr{
+	  border-bottom: 1px solid #fff;
+	}
+	.row.sub-total {
+		margin-top: 15px;
+	}
+	.grand {
+    border-top: 1px #666 solid;
+    padding: 8px 0px;
+}
+.grand span {
+    margin: 0px 15px;
+	color: #666;
+}
+.grand:first-child {
+    border: 0px;
+}
+.grand:last-child {
+    border-color: #57b223;
+    font-size: 18px;
+}
+.grand:last-child span{
+    color: #57b223;
+}
+.row.thank{
+	margin-bottom:50px;
+}
+.row.thank h4 {
+    color: #666;
+    margin-bottom: 70px;
+}
+.row.thank .txt p {
+    margin-bottom: 0px;
+    font-size: 13px;
+    color: #666;
+}
+.row.thank .txt {
+    border-left: 7px #0087c3 solid;
+    padding-left: 10px;
+}
+.row.footer {
+    font-size: 14px;
+    color: #666;
+    border-top: 1px #888 solid;
+    padding: 10px;
+    margin-top: 200px;
+	margin-bottom:50px;
+}
+.logo {
+    text-transform: uppercase;
+    font-size: 36px;
+    letter-spacing: 3px;
+    font-family: auto;
+    color: #57b223;
+
+    width: auto;
+    display: inline-block;
+    padding: 0px 15px;
+    border-radius: 3px;
+    font-style: italic;
+    font-weight: bold;
+    font-family: 'Tangerine', cursive;
+}
+
+	</style>
+
+  </head>
+  <body>
+	   <div class="main">
+			<div class="container">
+				<div class="row header">
+					<div class="col-md-6">
+
+						<div class="logo">twaask</div>
+					</div>
+					<div class="col-md-6 text-right">
+						<div class="hdr-right">
+							<h4>Snake Script Solution Private Limited</h4>
+							<p>Mohali, Punjab (India)</p>
+							<p>website : https://snakescript.com/</p>
+							<p><a href="#">official@snakescipt.com</a></p>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="row second-sec">
+					<div class="col-md-6">
+						<div class="jon">
+							<p>INVOICE TO:</p>
+<!--							<h5>{{user.first_name | title}} {{user.last_name | title}}</h5>-->
+							<p><a href="#">{{email}}</a></p>
+							<p>Date of Invoice: {% now "jS F Y " %}</p>
+<!--							<p>Payment ID : {{payment_id}}</p>-->
+						</div>
+					</div>
+
+				</div>
+
+
+
+				<div class="row">
+					<table>
+					   <tr>
+						<td style="background:#57b223;color:#fff;"></td>
+						<td style="text-align:left;">Requirements</td>
+						<td style="background:#dddddd;">Expected Time</td>
+						<td>Email</td>
+<!--						<td style="background:#57b223;color:#fff;">Total Amount</td>-->
+					  </tr>
+
+					   <tr>
+						<td style="background:#57b223;color:#fff;"></td>
+						<td style="text-align:left;">
+						<h5>Requirement Discription</h5>
+							<p>
+								{{comment}}
+							<p>
+						</td>
+						<td style="background:#dddddd;">{{expected_time}}</td>
+						<td>{{email}}</td>
+<!--						<td style="background:#57b223; color:#fff;">${{total_amount}}</td>-->
+					  </tr>
+
+
+
+<!--					    <tr>-->
+<!--						<td style="background:#57b223;color:#fff;"></td>-->
+<!--						<td style="text-align:left;">-->
+<!--						<h5>Search Engines Optimization</h5>-->
+<!--							<p>Optimize the site for search engines (SEO)<p>-->
+<!--						</td>-->
+<!--						<td style="background:#dddddd;">$40.00</td>-->
+<!--						<td>20</td>-->
+<!--						<td style="background:#57b223; color:#fff;">$800.00</td>-->
+<!--					  </tr>-->
+					</table>
+				</div>
+
+<!--				<div class="row sub-total">-->
+<!--					<div class="col-md-8"></div>-->
+<!--					<div class="col-md-4 text-right">-->
+
+<!--						<div class="grand">-->
+<!--							<span> Total amount</span>-->
+<!--							<p> ${{total_amount}} </p>-->
+<!--						</div>-->
+<!--						<div class="grand">-->
+<!--							<span>  Discount amount</span>-->
+<!--							<p> -${{discount_amount}} </p>-->
+<!--						</div>-->
+<!--						<div class="grand">-->
+<!--							<span> Payed amount </span>-->
+<!--							<p> ${{payment_amount}} </p>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+
+<!--				<div class="row thank">-->
+<!--					<div class="col-md-12">-->
+<!--						<h4>Thank you!</h4>-->
+<!--						<div class="txt">-->
+<!--							<p>NOTICE:</p>-->
+<!--							<p>A finance charge of 1.5% will be made on unpaid balances after 30 days</p>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+
+				<div class="row footer">
+					<div class="col-md-12 text-center">
+						<p>Invoice was created by Snake Script Solution Pvt. Ltd.</p>
+					</div>
+				</div>
+
+
+			</div>
+	   </div>
+  </body>
+</html>

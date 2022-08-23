@@ -1,0 +1,53 @@
+{% load filt %}
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="active-member">
+                <div class="table-responsive">
+                    <table class="table table-xs mb-0">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th style="color:#5151c7">Total Leaves</th>
+
+                                <th style="color:#3b9e3b">Unpdaid Leave</th>
+                                <th style="color:#3b9e3b">Paid Leave</th>
+                                <th>Deducted Salary</th>
+                                <th>Total Salary</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for employee in empolyees %}
+                            <tr onclick="chcek_leaves('{{employee.pk}}')" style="cursor:pointer">
+                                <th>{{ forloop.counter }}</th>
+                                <td>{{ employee.first_name|title }}{{employe_last_name|title}}
+                                    <br>{{employee.per_day_salary|floatformat:2}}
+                                </td>
+                                <td style="cursor:pointer" data-toggle="tooltip" data-placement="bottom" title="FL-{{employee.full_leave}}
+HL-{{employee.half_leave}}
+SL-{{employee.short_leave}}">
+                                    <b style="margin-left:50px">{{ full_leave_dic|get_item:employee.id }}</b><br>
+                                    <b></b>
+                                </td>
+
+                                <td>{{ unpaid_leave_dic|get_item:employee.id }}</td>
+                                <td>{{ paid_leave_dic|get_item:employee.id }}</td>
+                                <td>
+                                    {{ deduct_leave|get_deduct_salary:employee.id|floatformat:2 }}
+                                </td>
+                                <td>
+                                    {{ total_salary_dict|get_deduct_salary:employee.id|floatformat:2 }}
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

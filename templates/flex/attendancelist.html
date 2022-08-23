@@ -1,0 +1,180 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block title %} Attendance list {% endblock %}
+{% block content %}
+<div class="content-body">
+    <div class="container-fluid ">
+        <div style="margin-bottom:1%;">
+            <b>Pick Month &nbsp;&nbsp;&nbsp;
+                <input style="display:inherit;height:40px;width: 175px;" onchange="datepicker()" id="datepicker"
+                    type="month" value="" class="form-control" value="2017-06-01">
+            </b>
+        </div>
+
+        <div class="row" id="month-data">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="active-member">
+                            <div class="table-responsive">
+
+
+
+                                <table class="table table-xs mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Employee ID </th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th>Leave Status</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for attendance in attendances %}
+
+                                        <tr>
+                                            <td><b>{{attendance.employe_name}}</b></td>
+
+                                            <td>{{attendance.employe_name.id}}</td>
+                                            <td>
+
+                                                {% if attendance.status == 'P' %}
+                                                <span class="badge badge-primary px-2">Present</span>
+                                                {% elif attendance.status == 'A' %}
+                                                <span class="badge badge-danger px-2">Absent</span>
+                                                {% elif attendance.status == 'L' %}
+                                                <span class="badge badge-success px-2">Leave</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{attendance.created_at}}
+                                            </td>
+                                            <td>
+                                                {% if attendance.status == 'L' %}
+                                                {% if attendance.leave_type == 'h'%}
+                                                <b>Half day</b>
+                                                {% elif attendance.leave_type == 'f'%}
+                                                <b>Full day</b>
+                                                {% elif attendance.leave_type == 's'%}
+                                                <b>Short leave</b>
+
+                                                {% endif %}
+                                                {% else %}
+                                                -------
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if attendance.status == 'L' %}
+                                                {% if attendance.leave_stutus == 'p'%}
+                                                <b>Paid Leave</b>
+                                                {% elif attendance.leave_stutus == 'u'%}
+                                                <b>Uppaid Leave</b>
+
+                                                {% endif %}
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bootstrap-modal">
+    <div class="modal fade" id="check_leave" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Employee Leave Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-form-label">Short_leave : <b id="short_leave"></b></label><br>
+                        <label class="col-form-label">Half_leave : <b id="half_leave"></b></label><br>
+                        <label class="col-form-label">Full_leave : <b id="full_leave"></b></label>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}r
+{% block script %}
+<script>
+    jQuery.noConflict();
+    function datepicker() {
+
+        let date = new Date($('#datepicker').val());
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+
+
+        $.ajax({
+            type: "post",
+            data: {
+                'month': month,
+                'year': year,
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            },
+
+            success: function (data) {
+
+
+                $('#month-data').html(data['html']);
+
+            },
+        });
+    }
+    function chcek_leaves(ID) {
+
+        let date = new Date($('#datepicker').val());
+
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        console.log(month)
+
+        $.ajax({
+            type: 'get',
+            data: {
+                'check_leave_id': ID,
+                'month': month,
+                'year': year,
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            },
+            success: function (data) {
+                console.log(data)
+
+                $("#short_leave").html(data.short_leave);
+
+
+                $("#half_leave").html(data.half_leave);
+
+                $("#full_leave").html(data.full_leave);
+
+                $('#check_leave').modal('show');
+            },
+        })
+    }
+
+</script>
+
+
+{% endblock %}

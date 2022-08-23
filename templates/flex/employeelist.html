@@ -1,0 +1,37 @@
+{% extends 'base_layout.html' %}
+{%load static%}
+{% block title %} All employee {% endblock %}
+{% block content %}
+<div class="content-body">
+    <div class="container-fluid mt-3">
+        <div class="row">
+            {% for employee in employees %}
+            {{employee.full_name }}
+            <div class="col-lg-3 col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="text-center">
+                            {% if employee.image %}
+                            <img src="{{ employee.image.url }}" class="rounded-circle" alt=""
+                                style="width:54px;height:54px;">
+                            {%else%}
+                            <img src="{% static 'flex/images/user/8.png' %}" class="rounded-circle" alt="">
+                            {%endif%}
+                            <h5 class="mt-3 mb-1">Name:{{ employee.first_name}} </h5>
+                            <p class="m-0">Email:{{ employee.office_email }}</p>
+                            <p class="m-0">Mobile No.:{{ employee.phone }}</p>
+                            <p class="m-0">D.O.B :{{employee.dob}}</p>
+                            <p class="m-0">Joining Date:{{ employee.joining_date }}</p>
+                            <p class="m-0">Address: {{ employee.permanent_address }}</p>
+                            <p class="m-0">Department: {{ employee.department }}</p>
+                            <!-- <a href="javascript:void()" class="btn btn-sm btn-warning">Send Message</a> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{
+  "name": "my-electron-app",
+  "version": "1.0.0",
+  "description": "\"hello world\"",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . MyApp ",
+    "package": "asar pack MyApp.app/Contents/Resources/app.asar"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "asar": "^3.1.0",
+    "electron": "^17.0.0",
+    "electron-packager": "^15.4.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "python-shell": "^3.0.1",
+    "request-promise": "^4.2.6"
+  }
+}

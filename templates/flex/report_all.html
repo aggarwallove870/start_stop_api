@@ -1,0 +1,142 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block title %} Attendance list {% endblock %}
+{% block content %}
+<div class="content-body">
+    <div class="container-fluid ">
+        <div style="margin-bottom:1%;">
+            <b>Select Employee to Filter &nbsp;&nbsp;&nbsp;
+                <!--dndgnd-->
+
+                <select style="display:inherit;height:40px;width: 185px;" class="form-control" id="emp"
+                    onchange="emp()">
+                    <option selected disabled>Select Employee to filter</option>
+                    {% for employee in reports %}
+                    <option value="{{employee.user.id}}">{{employee.user}}</option>
+                    {%endfor%}
+                </select>
+            </b>
+        </div>
+
+        <div class="row" id="month-data">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="active-member">
+                            <div class="table-responsive">
+
+
+                                <table class="table table-xs mb-0" id="emp_report">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Employee Name</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {% for report in reports %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{report.user}}</td>
+                                            <td>{{report.status}}</td>
+                                            <td>{{report.date}}</td>
+                                            <td>
+                                                <button id="{{employ.id}}" type="button" onclick="view('{{report.id}}')"
+                                                    class="btn btn-primary" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal"><i
+                                                        class="fa fa-eye">View</i></button>
+                                            </td>
+                                        </tr>
+
+
+                                        {%endfor%}
+
+                                    </tbody>
+                                </table>
+                                <br><br>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <pre><p id="message-text" name="tasks" value=""></p></pre>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}r
+{% block script %}
+<script>
+
+
+    function view(id) {
+        console.log(id)
+        $.ajax({
+            type: "post",
+            data: {
+                "modal": "modal",
+                "ID": id,
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            },
+
+            success: function (data) {
+                modal_title = document.getElementById('exampleModalLabel').innerText = data.data[0]['status']
+                modal_body = document.getElementById('message-text').innerHTML = data.data[0]['tasks']
+                console.log(data.data[0]['tasks'])
+
+
+            },
+        });
+
+
+
+    }
+
+    function emp() {
+        $.ajax({
+            type: "GET",
+            data: {
+                "ID": document.getElementById("emp").value,
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            },
+
+            success: function (data) {
+                $('#emp_report').html(data['html']);
+
+
+            },
+        });
+    }
+
+
+    jQuery.noConflict();
+
+
+
+</script>
+
+
+{% endblock %}

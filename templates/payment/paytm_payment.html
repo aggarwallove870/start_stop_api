@@ -1,0 +1,30 @@
+{% extends 'twaask_base_layout.html' %}
+{% load static %}
+{% block title %}Payment | {% endblock %}
+{% block content %}
+
+
+
+<div class="bnr">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Payment Proccessing....</h1>
+                <h1>Please do not refresh your page....</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<form action="https://securegw-stage.paytm.in/theia/processTransaction" method="post" name="paytm">
+
+    {% for key, value in param_dict.items %}
+    <input type="hidden" name="{{key}}" value="{{value}}">
+    {% endfor %}
+
+
+</form>
+<script >
+    document.paytm.submit();
+</script>
+{% endblock %}
+

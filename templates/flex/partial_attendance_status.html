@@ -1,0 +1,104 @@
+<form>
+    {% for employ in employe %}
+    <td style="cursor:pointer" data-toggle="modal"><b onclick="noteadd('{{employ.id}}')">
+            {{ employ.employe_name }} </b></td>
+    <td>
+        {% if employ.status == 'P' %}
+        <span class="badge badge-primary px-2">Present</span>
+        {% elif employ.status == 'A' %}
+        <span class="badge badge-danger px-2">Absent</span>
+        {% elif employ.status == 'L' %}
+        <span class="badge badge-success px-2">Leave</span>
+
+        {% endif %}
+    </td>
+    <td>{{ employ.employe_name.id }}</td>
+    <td>
+        {% if employ.status == 'P' %}
+        <input class="present checkbox-sizec" onclick="present('{{ employ.employe_name.id }}')"
+            id="{{employ.employe_name.id }}" type="checkbox" checked>
+        {% else %}
+        <input class="present checkbox-sizec" onclick="present('{{ employ.employe_name.id }}')"
+            id="{{ employ.employe_name.id}}" type="checkbox">
+        {% endif %}
+    </td>
+
+    <td>
+        {% if employ.status != 'L' %}
+        <input class="leave checkbox-sizec" onclick="leave('{{employ.employe_name.id}}')"
+            id="{{ employ.employe_name.id }}" type="checkbox">
+        {% endif %}
+        {% if employ.status == 'L' %}
+        <div>
+            <form>
+                <div class="form-row align-items-center">
+                    <div class="col-auto my-1">
+                        <select class="custom-select " onchange="dayleave('{{employ.employe_name.id}}')" name="
+                        status" id="status_ab">
+                            {% if employ.leave_type == 'f' %}
+                            <option value="f" selected="selected">Full day</option>
+                            <option value="h">Half day</option>
+                            <option value="s">Short Leave</option>
+                            {% elif employ.leave_type == 'h' %}
+                            <option value="h" selected="selected">Half day</option>
+                            <option value="f">Full day</option>
+                            <option value="s">Short Leave</option>
+                            {% elif employ.leave_type == 's' %}
+                            <option value="s" selected="selected">Short Leave</option>
+                            <option value="f">Full day</option>
+                            <option value="h">Half Leave</option>
+                            {% else %}
+                            <option selected="selected">Choose...</option>
+                            <option value="f">Full day</option>
+                            <option value="h">Half day</option>
+                            <option value="s">Short Leave</option>
+                            {% endif %}
+                        </select>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% if employ.leave_type == 'f' %}
+        {{employ.fulled}}
+        {% elif employ.leave_type == 'h' %}
+        {{employ.halfed}}
+        {% elif employ.leave_type == 's' %}
+        {{employ.shorted}}
+        {% endif %}
+        {% endif %}
+    </td>
+    <td>
+        {% if employ.status == 'L' %}
+        <div>
+            <form>
+                <div class="form-row align-items-center">
+                    <div class="col-auto my-1">
+                        <select class="custom-select " onchange="leavestatus('{{employ.employe_name.id}}')"
+                            id="status_leave">
+                            {% if employ.leave_status == 'p' %}
+                            <option value="p" selected="selected">Paid Leave</option>
+                            <option value="u">Unpaid Leave</option>
+                            {% elif employ.leave_status == 'u' %}
+                            <option value="u" selected="selected">Unpaid Leave</option>
+                            <option value="p">Paid Leave</option>
+                            {% else %}
+                            <option>Choose...</option>
+                            <option value="p">Paid Leave</option>
+                            <option value="u">Unpaid Leave</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% endif %}
+    </td>
+    {% if employ.status == 'L' %}
+    <td>
+        <input type="button" id="b_{{employ.id}}" class="btn mb-1 btn-success" onclick="chcek_leaves('{{employ.id}}')"
+            value="Check leave">
+    </td>
+    {% endif %}
+    {% endfor %}
+</form>

@@ -1,0 +1,27 @@
+{% extends 'twaask_base_layout.html' %}
+{% load static %}
+{% block title %}Cancel | {% endblock %}
+
+
+{% block content %}
+<div class="pay-field-sec">
+	<div class="container">
+		<div class="row">
+				<div class="col-md-12 text-center">
+					<div class="field">
+						<div class="can-pic">
+							<img src="{% static 'twaask/images/cancle.png' %}">
+						</div>
+						<h3>Oops Payment Failed</h3>
+
+						<p>Your order ID : {{response.ORDERID}}</p>
+						<p>Amount :  {{response.TXNAMOUNT}}</p>
+						<p>Status :  {{response.RESPMSG}}</p>
+						<p style="color:red">Please try again later</p>
+						<a href="{% url 'twaask' %}">ok</a>
+					</div>
+				</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

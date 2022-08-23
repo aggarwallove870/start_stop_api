@@ -1,0 +1,97 @@
+{% extends 'twaask_base_layout.html' %}
+{% load static %}
+{% block title %}{% endblock %}
+{% block content %}
+
+<div class="banner">
+
+    <div class="container">
+		<div class="row">
+			<div class="col-md-6">
+                <h2>Login your account for purchage</h2>
+                <form method="post" class="mt-5 mb-5 login-input">
+                    {% csrf_token %}
+                        <div class="form-group">
+                            <input type="text" name="username" class="form-control" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" class="form-control" placeholder="Password">
+                        </div>
+                        <input type="submit" class="btn login-form__btn submit w-100">
+                    {{form.errors}}
+                    {% if message %}
+                            <p style="color:red"><b>{{message}}</b></p>
+                        {% endif %}
+                    </form>
+                <h3>Create your account  <a href="{% url 'clientregister' %}">Register</a></h3>
+
+            </div>
+            {% if sevice %}
+            <div class="col-md-6">
+                 <div class="service-section">
+                <div class="gallery_product col-lg-12filter hdpe">
+                    <div class="filter-pic">
+                        <img src="{{sevice.website_image.url}}" class="img-fluid">
+                        <div class="overlay">
+                    </div>
+                </div>
+                </div>
+                <p>Website Title : {{sevice.title|slice:":30"}}</p>
+                <b >Price : ${{sevice.price}}</b>
+                <b class="site-link">Website Linke : <a class="view" href="{{sevice.website_link}}">Click here</a></b>
+                {% if sevice.discount_percentage %}
+                <p>Service Discount : {{sevice.discount_percentage}}%</p>
+                {% endif %}
+            </div>
+            </div>
+            {% endif %}
+        {% if packages %}
+            <div class="col-md-4" >
+                <div class="pricingTable blue" >
+                    <svg x="0" y="0" viewBox="0 0 360 220">
+                        <g>
+                            <path fill="#1c3469" d="M0.732,193.75c0,0,29.706,28.572,43.736-4.512c12.976-30.599,37.005-27.589,44.983-7.061
+                                c8.09,20.815,22.83,41.034,48.324,27.781c21.875-11.372,46.499,4.066,49.155,5.591c6.242,3.586,28.729,7.626,38.246-14.243
+                                s27.202-37.185,46.917-8.488c19.715,28.693,38.687,13.116,46.502,4.832c7.817-8.282,27.386-15.906,41.405,6.294V0H0.48
+                                L0.732,193.75z"></path>
+                        </g>
+                        <text transform="matrix(1 0 0 1 69.7256 116.2686)" fill="#fff" font-size="55.4489">${{packages.package_price|stringformat:"02d"}}</text>
+                        <!--<text transform="matrix(0.9566 0 0 1 197.3096 83.9121)" fill="#fff" font-size="29.0829">.00</text> -->
+                        <text class="per-week" transform="matrix(1 0 0 1 233.9629 115.5303)" fill="#fff" font-size="15.4128">Per/Week</text>
+                    </svg>
+
+                    <div class="pricing-content">
+                        <h3 class="title">{{packages.package_name}} </h3>
+                        <ul class="pricing-content">
+                            {% for member in  packages.project_member.all %}
+                            <li>{{member }}</li>
+                            {% endfor %}
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+            <!--<div class="service-section">
+                <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter hdpe">
+                    <div class="filter-pic">
+                        <img src="{{sevice.website_image.url}}" class="img-fluid">
+                        <div class="overlay">
+                    </div>
+                </div>
+                </div>
+                <p>Website Title : {{sevice.title|slice:":30"}}..</p>
+                <b >Price : ${{sevice.price}}</b>
+                <b>Website Linke : <a class="view" href="{{sevice.website_link}}">Click here</a></b>
+                {% if sevice.discount_percentage %}
+                <b>Service Discount :</b> <p>{{sevice.discount_percentage}}%</p>
+                {% endif %}
+            </div> -->
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

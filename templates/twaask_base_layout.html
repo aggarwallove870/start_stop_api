@@ -1,0 +1,195 @@
+
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'twaask/images/fev.png' %}">
+<!--<link rel="icon" href="{% static 'twaask/images/fev.png" type="image/gif" sizes="16x16">-->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'twaask/css/bootstrap.min.css' %}">
+	 <link rel="stylesheet" href="{% static 'twaask/css/style.css' %}">
+	  	 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <title>{% block title %}{% endblock %}Twaask</title>
+  </head>
+  <body>
+
+  <div class="main">
+
+	  <nav class="navbar navbar-expand-lg navbar-light">
+		  <div class="container">
+  <a class="navbar-brand" href="{% url 'twaask' %}"><img src="{% static 'twaask/images/logo.png' %}" alt=""></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">About</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="#">Why Choose Us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Service</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="#">Blog</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="#">Contact</a>
+      </li>
+		{% if user.is_authenticated %}
+		<li class="nav-item">
+
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+      </li>
+		{% endif %}
+
+    </ul>
+  </div>
+  </div>
+	  </nav>
+
+<!--- end-header --->
+		{% block content %}{% endblock %}
+
+
+
+	  <footer class="footer-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3">
+					<div class="first-colum">
+						<h3>Logo</h3>
+						<p>Whether its a driving tour, a cruise or a bus,leaf viewing is a
+						great way spend a fall vacation. It’s also big tour.</p>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+					<div class="first-colum">
+						<h3>About Us</h3>
+						<ul>
+							<li><a href="#">Home</a></li>
+							<li><a href="#">About</a></li>
+							<li><a href="#">Why Choose US</a></li>
+							<li><a href="#">Service</a></li>
+							<li><a href="#">Blog</a></li>
+							<li><a href="#">Contact</a></li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+					<div class="first-colum">
+						<h3>London Office</h3>
+						<p>87 London Road Kingston Upon,KT44 1HY London, UK</p>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+					<div class="first-colum">
+						<h3>New York Office</h3>
+						<p>864 St Paul Ave. Oswego, NY 13126 Newyork, USA</p>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	  </footer>
+
+	  <div class="copyright-sec">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<p>Copyright © 2019 TaaSk All Right Reserved.</p>
+				</div>
+				<div class="col-md-6">
+					<ul>
+						<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fa fa-vimeo" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	  </div>
+
+
+
+  </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+ 	<script src="{% static 'twaask/js/slim.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <!--	<script src="{% static 'payment/js/script.js' %}"></script>-->
+
+		<script>
+			( function() {
+
+				var youtube = document.querySelectorAll( ".youtube" );
+
+				for (var i = 0; i < youtube.length; i++) {
+
+					var source = "https://img.youtube.com/vi/"+ youtube[i].dataset.embed +"/sddefault.jpg";
+
+					var image = new Image();
+							image.src = source;
+							image.addEventListener( "load", function() {
+								youtube[ i ].appendChild( image );
+							}( i ) );
+
+							youtube[i].addEventListener( "click", function() {
+
+								var iframe = document.createElement( "iframe" );
+
+										iframe.setAttribute( "frameborder", "0" );
+										iframe.setAttribute( "allowfullscreen", "" );
+										iframe.setAttribute( "src", "https://www.youtube.com/embed/"+ this.dataset.embed +"?rel=0&showinfo=0&autoplay=1" );
+
+										this.innerHTML = "";
+										this.appendChild( iframe );
+							} );
+				};
+
+			} )();
+
+			var $element=$('.each-event, .title');
+				var $window = $(window);
+				$window.on('scroll resize', check_for_fade);
+				$window.trigger('scroll');
+				function check_for_fade() {
+					var window_height = $window.height();
+
+					$.each($element, function (event) {
+						var $element = $(this);
+						var element_height = $element.outerHeight();
+						var element_offset = $element.offset().top;
+						space = window_height - (element_height + element_offset -$(window).scrollTop());
+						if (space < 60) {
+							$element.addClass("non-focus");
+						} else {
+							$element.removeClass("non-focus");
+						}
+
+					});
+				};
+		</script>
+{% block script %}{% endblock %}
+  </body>
+</html>

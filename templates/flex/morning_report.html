@@ -1,0 +1,264 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block title %} Home {% endblock %}
+
+{% block content %}
+<style>
+    .readmore {
+        width: 200px;
+    }
+
+    .readmore .moreText {
+        display: none;
+    }
+
+    .readmore a.more {
+        display: block;
+    }
+</style>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form method="POST" class="post-form" action="">
+                    {% csrf_token %}
+                    <input type="text" id="hidden_emp" value="" name="hidden_employee" hidden>
+
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Tasks:</label>
+                        <textarea class="form-control" id="message-text" required name="tasks" value=""></textarea>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1" class="col-form-label">Status:</label>
+                        <select class="form-control" id="exampleFormControlSelect1" name="status" required>
+                            <option selected disabled>Choose Status to Report</option>
+                            <option>Morning Status</option>
+                            <option>Evening Status</option>
+                        </select>
+
+                    </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-secondary">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="example" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Report</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form method="POST" class="post-form" action="">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Tasks:</label>
+                        <textarea class="form-control" id="message-text" required name="tasks" value=""></textarea>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1" class="col-form-label">Status:</label>
+                        <select class="form-control" id="exampleFormControlSelect1" name="status" required>
+                            <option selected disabled value="">Choose Status to Report</option>
+                            <option>Morning Status</option>
+                            <option>Evening Status</option>
+                        </select>
+
+                    </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input type="submit" class="btn btn-secondary" onclick="submit_report('{{employ.id}}')">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-body">
+    <div class="container-fluid mt-3">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h4>Daily Report
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#example"
+                                    data-whatever="@mdo" style="margin-left:830px;">Add
+                                    New Report
+                            </h4>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Task</th>
+
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% now "M d, Y" as today_str %}
+
+                                    {% for employ in reports %}
+                                    <tr id="All-{{employ.id}}">
+                                        <td>
+                                            <b>{{ forloop.counter }}</b>
+                                        </td>
+                                        <td>{{ employ.date|date:"M d, Y" }}</td>
+                                        <td>{{ employ.status }}</td>
+                                        <td id="full">
+                                            <div class="readmore">
+                                                <span class="ellipsis"></span> <span class="moreText">
+                                                    <pre>{{employ.tasks}}</pre>
+                                                </span> <a class="more" href="javascript:void(0);">View Task</a>
+                                            </div>
+                                        </td>
+
+                                        {% if employ.date|date:"M d, Y" == today_str %}
+
+
+                                        <td>
+                                            <button id="{{employ.id}}" type="button" onclick="edit('{{employ.id}}')"
+                                                class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                                                data-whatever="@mdo"><span class="icon-note menu-icon">Edit</span>
+                                        </td>
+
+                                        {%endif%}
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                {% if messages %}
+                                {% for message in messages %}
+                                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}"
+                                    role="alert">{{ message }}</div>
+                                {% endfor %}
+                                {% endif %}
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+    function edit(id) {
+
+        $.ajax({
+            data: {
+                'type': "GET",
+                'id': id,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {
+                document.getElementById('message-text').innerHTML = data.data[0]['tasks']
+                var drop = document.getElementById('exampleFormControlSelect1');
+                drop.value = data.data[0]['status']
+
+                // For hidden field of modal
+                document.getElementById('hidden_emp').value = id
+
+                $('#modalQuickView .modal-dialog').html($('#modalQuickView .modal-dialog', data));
+                $('#modalQuickView').modal('show');
+            },
+            error: function () {
+                console.log('error')
+            },
+        });
+
+    }
+    $(function () {
+        $('.readmore a.more').on('click', function () {
+            var $parent = $(this).parent();
+            if ($parent.data('visible')) {
+                $parent.data('visible', false).find('.ellipsis').show()
+                    .end().find('.moreText').hide()
+                    .end().find('a.more').text('View Task');
+            } else {
+                $parent.data('visible', true).find('.ellipsis').hide()
+                    .end().find('.moreText').show()
+                    .end().find('a.more').text('Hide Task');
+            }
+        });
+    });
+
+    function submit_report(id) {
+
+        $.ajax({
+            data: {
+                'type': "POST",
+                'id': id,
+                'name': 'ashi',
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function (data) {
+                document.getElementById('message-text').innerHTML = data.data[0]['tasks']
+                var drop = document.getElementById('exampleFormControlSelect1');
+                drop.value = data.data[0]['status']
+
+                // For hidden field of modal
+                document.getElementById('hidden_emp').value = id
+
+                $('#modalQuickView .modal-dialog').html($('#modalQuickView .modal-dialog', data));
+                $('#modalQuickView').modal('show');
+            },
+            error: function () {
+                console.log('error')
+            },
+        });
+
+    }
+
+
+
+
+    $(document).ready(function () {
+        console.log("cdvdv")
+
+
+
+    })
+
+</script>
+{% endblock %}
